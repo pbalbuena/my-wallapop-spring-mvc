@@ -1,0 +1,30 @@
+<!-- table marks -->
+<table class="table table-hover" id="tableMarks">
+	<thead>
+		<tr>
+			<th class="col-md-1" th:text="#{Oferta.list.campo1}">titulo</th>
+			<th th:text="#{Oferta.list.campo2}">detalle</th>
+			<th th:text="#{Oferta.list.campo3}">precio</th>
+			<th class="col-md-1"></th>
+			<th class="col-md-1"></th>
+			<th class="col-md-1"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="of : ${markList}">
+			<td th:text="${of.titulo}">titulo</td>
+			<td th:text="${of.detalle}">detalle</td>
+			<td th:text="${of.precio}">100</td>
+			<td><a th:href="${'/oferta/details/' + of.id}"
+				th:text="#{Detalles}">detalles</a></td>
+			<td><a th:href="${'/oferta/edit/' + of.id}"
+				th:text="#{Modificar}">modificar</a>
+				<div>
+					<div>
+						<button type="button" class="btn btn-info">Comprar</button>
+					</div></td>
+			<td><a th:href="${'/oferta/delete/' + of.id}"
+				th:text="#{Eliminar}">eliminar</a></td>
+		</tr>
+	</tbody>
+</table>
