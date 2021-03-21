@@ -17,12 +17,14 @@
 						Gestion de ofertas <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a
-							href="/oferta/listVender" th:text="#{Nav.ofertas.listVender}">Ver mis ofertas</a></li>
-						<li><a
-							href="/oferta/listComprar" th:text="#{Nav.ofertas.listComprar}">Comprar ofertas</a></li>
-						<li><a
-							href="/oferta/add" th:text="#{Nav.ofertas.add}">Agregar oferta</a>
+						<li><a href="/oferta/listVender"
+							th:text="#{Nav.ofertas.listVender}">Ver mis ofertas</a></li>
+						<li><a href="/oferta/listComprar"
+							th:text="#{Nav.ofertas.listComprar}">Comprar ofertas</a></li>
+						<li><a href="/oferta/listCompradas"
+							th:text="#{Nav.ofertas.listCompradas}">Ofertas compradas</a></li>
+						<li><a href="/oferta/add" th:text="#{Nav.ofertas.add}">Agregar
+								oferta</a>
 					</ul>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#" th:text="#{Nav.user.admin}">
@@ -30,8 +32,6 @@
 				</a>
 					<ul class="dropdown-menu">
 						<li><a href="/usuario/list" th:text="#{Nav.user.list}">Ver
-								Usuarios</a></li>
-						<li><a href="/usuario/add" th:text="#{Nav.user.add}">A�adir
 								Usuarios</a></li>
 					</ul>
 			</ul>
@@ -67,6 +67,11 @@
 					th:text="#{login.message}"> <span
 						class="glyphicon glyphicon-log-in"></span> Identifícate
 				</a></li>
+				<li sec:authorize="isAuthenticated()"><a href="/"
+					sec:authentication="principal.username"><span class="caret"></span>username</a></li>
+				<li sec:authorize="isAuthenticated()"><a href="/"
+					th:text="${session.activeUser.money}"><span class="caret"></span>money</a>
+				</li>
 				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
 						class="glyphicon glyphicon-log-out"></span> Desconectar
 				</a></li>

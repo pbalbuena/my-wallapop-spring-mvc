@@ -127,12 +127,29 @@ public class OfertaService {
 		Oferta of = ofertaRepository.findById(id).get();
 		Usuario actual = usuarioRepository.findByEmail(email);
 		if(actual.getMoney() >= of.getPrecio()) {
+			ofertaRepository.setComprador(id, actual);
 			ofertaRepository.updateVenta(b, id);
+			usuarioRepository.updateMonederoFromUsuario(of.getPrecio(), actual.getId());
+			System.out.println(actual.getMoney());
 			return true;
 		} else {
 			System.out.println("El usuario no tiene suficiente dinero");
 			return false;
 		}
+	}
+
+	/**
+	 * busca las ofertas que ha comprado un usuario
+	 * @param pageable
+	 * @param user
+	 * @return
+	 */
+	public Page<Oferta> getOfertasCompradasForUser(Pageable pageable, Usuario user) {
+		Page<Oferta> marks = new PageImpl<Oferta>(new LinkedList<Oferta>());
+		marks = ofertaRepository.findOfertasCompradasForUser(pageable, user);
+		return marks;
 	}	
+	
+	
 	
 }

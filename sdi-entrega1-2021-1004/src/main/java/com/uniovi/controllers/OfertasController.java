@@ -27,6 +27,9 @@ import com.uniovi.validators.OfertaAddValidator;
 
 @Controller
 public class OfertasController {
+	
+	@Autowired
+	private HttpSession httpSession;
 
 	@Autowired // Inyectar el servicio
 	private OfertaService ofertaService;
@@ -37,8 +40,7 @@ public class OfertasController {
 	@Autowired
 	private OfertaAddValidator validator;
 
-	@Autowired
-	private HttpSession httpSession;
+	
 
 	/**
 	 * Obtener la lista de ofertas propias + busqueda + paginacion
@@ -89,6 +91,27 @@ public class OfertasController {
 
 		return "oferta/listComprar";
 	}
+	
+	/**
+	 * Obtemer la lista de las ofertas compradas + paginacion
+	 * @param model
+	 * @param pageable
+	 * @param principal
+	 * @param searchText
+	 * @return
+	 */
+	@RequestMapping("/oferta/listCompradas")
+	public String getListCompradas(Model model, Pageable pageable, Principal principal, @RequestParam(value="", required = false) String searchText) {
+		String email = principal.getName(); // DNI es el name de la autenticación
+		Usuario user = usersService.getUserByEmail(email);
+		Page<Oferta> marks = new PageImpl<Oferta>(new LinkedList<Oferta>());
+		marks = ofertaService.getOfertasCompradasForUser(pageable, user);
+
+		model.addAttribute("markList", marks.getContent());
+		model.addAttribute("page", marks);
+
+		return "oferta/listCompradas";
+	}
 
 	@RequestMapping(value = "/oferta/add")
 	public String getOferta(Model model) {
@@ -114,7 +137,7 @@ public class OfertasController {
 	@RequestMapping("/oferta/delete/{id}")
 	public String deleteOferta(@PathVariable Long id) {
 		ofertaService.deleteOferta(id);
-		return "redirect:/oferta/list";
+		return "redirect:/oferta/listVender";
 	}
 
 	@RequestMapping("/oferta/details/{id}")
@@ -141,20 +164,26 @@ public class OfertasController {
 
 		return "redirect:/oferta/details/" + id;
 	}
-	/*
-	@RequestMapping("/mark/list/update")
+	
+	@RequestMapping("/oferta/listComprar/update")
 	public String updateList(Model model, Pageable pageable, Principal principal) {
+		System.out.println("updateList ofertas controller");
 		String dni = principal.getName(); // DNI es el name de la autenticación
-		User user = usersService.getUserByDni(dni);
-		Page<Mark> marks = marksService.getMarksForUser(pageable, user);
+		Usuario user = usersService.getUserByEmail(dni);
+		httpSession.setAttribute("activeUser", user);
+		Page<Oferta> marks = ofertaService.getOtrasOfertasForUser(pageable, user);
 		model.addAttribute("markList",marks);
-		return "mark/list :: tableMarks";
+		return "oferta/listComprar :: tableMarks";
 	}
-	*/
+	
 
-	@RequestMapping(value = "/oferta/{id}/resend", method = RequestMethod.GET)
-	public String setVendidaTrue(Model model, @PathVariable Long id) {
+	@RequestMapping(value = "/oferta/{id}/vendido", method = RequestMethod.GET)
+	public String setVendidaTrue(Model model, @PathVariable Long id, Principal principal) {
+		System.out.println("setVendida ofertas controller");
 		ofertaService.setOfertaVendida(true, id);
+		String dni = principal.getName(); // DNI es el name de la autenticación
+		Usuario user = usersService.getUserByEmail(dni);
+		httpSession.setAttribute("activeUser", user);
 		return "redirect:/oferta/listComprar";
 	}
 	

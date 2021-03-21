@@ -57,5 +57,9 @@ public class UsuarioService {
 		return users;
 	}
 
+	public void deleteAllUsers() {
+		usuarioRepository.deleteAll();
+	}
+
 	
 }

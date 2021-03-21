@@ -1,7 +1,10 @@
 package com.uniovi.repositories;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -20,4 +23,9 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 	
 	@Query("SELECT r from Usuario r WHERE r.rol = 'ROLE_USUARIO' and ( (LOWER(r.name) LIKE LOWER(?1) or LOWER(r.lastName) LIKE LOWER(?1)) )")
 	Page<Usuario> searchStandardUsersByNameAndLastname(Pageable p, String str);
+
+	@Modifying
+	@Transactional
+	@Query("UPDATE Usuario SET money = money - ?1 WHERE id = ?2")
+	void updateMonederoFromUsuario(float precio, Long id);
 }

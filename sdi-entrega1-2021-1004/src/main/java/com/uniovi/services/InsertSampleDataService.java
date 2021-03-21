@@ -20,6 +20,7 @@ public class InsertSampleDataService {
 	@Autowired
 	private RolesService rolesService;
 	
+	/*
 	@Autowired
 	private MensajeService mensajeService;
 	
@@ -28,6 +29,11 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private ConversacionService conversacionService;
+	*/
+	
+	public void deleteAll() {
+		usuarioService.deleteAllUsers();
+	}
 	
 	@PostConstruct
 	public void init() {
@@ -35,6 +41,7 @@ public class InsertSampleDataService {
 		Usuario admin = new Usuario("admin@email.com", "Ad", "Min", "admin");
 		admin.setRol(rolesService.roles[1]);
 		Usuario u1 = new Usuario("uo239394@uniovi.es", "Pablo", "Glez", "123456");
+		System.out.println(u1.getMoney());
 		u1.setRol(rolesService.roles[0]);
 		Usuario u2 = new Usuario("uo111111@uniovi.es", "Juan", "Martinez", "123456");
 		u2.setRol(rolesService.roles[0]);
@@ -47,15 +54,27 @@ public class InsertSampleDataService {
 		
 		Oferta o1 = new Oferta("Pelota de baloncesto", "Buen estado", 10);
 		Oferta o2 = new Oferta("Coche de rally", "Usado", 4500);
-		Oferta o3 = new Oferta("Vestido de boda", "Como nuevo", 101);
+		Oferta o3 = new Oferta("Vestido de boda", "Como nuevo", 100);
+		Oferta o4 = new Oferta("Cosa", "Como nuevo", 1);
+		Oferta o5 = new Oferta("Móvil", "Está mejorable", 5);
+		o5.setVendido(true);
+		Oferta o6 = new Oferta("Cartera", "No me gusta", 7);
+		Oferta o7 = new Oferta("Llaves", "Es feo", 23);
 		
 		Set<Oferta> ofs = new HashSet<Oferta>();
+		
 		ofs.add(o1);
 		ofs.add(o2);
 		ofs.add(o3);
+		ofs.add(o4);
+		ofs.add(o5);
+		ofs.add(o6);
+		ofs.add(o7);
+		
 		for (Oferta oferta : ofs) {
 			oferta.setUsuario(u1);
 		}
+		
 		u1.setOfertas(ofs);
 		
 		usuarioService.addUser(admin);

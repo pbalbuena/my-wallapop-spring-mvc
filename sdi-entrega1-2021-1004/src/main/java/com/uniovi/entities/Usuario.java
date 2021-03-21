@@ -30,6 +30,9 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Set<Oferta> ofertas;
 	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private Set<Oferta> comprasRealizadas;
+	
 	@OneToMany(mappedBy = "u1", cascade = CascadeType.ALL)
 	private Set<Conversacion> conversaciones;
 	
@@ -42,11 +45,11 @@ public class Usuario {
 	
 	
 	public Usuario() {
-		
+		this.money = 100;
 	}
 	
 	public Usuario(String email, String name, String lastName, String password) {
-		super();
+		this.money = 100;
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
@@ -54,7 +57,7 @@ public class Usuario {
 	}
 	
 	public Usuario(String email, String name, String lastName, String password, String passwordConfirm) {
-		super();
+		this.money = 100;
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
@@ -63,7 +66,7 @@ public class Usuario {
 	}
 	
 	public Usuario(String email, String name, String lastName, String password, String passwordConfirm, float money) {
-		super();
+		this.money = 100;
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;

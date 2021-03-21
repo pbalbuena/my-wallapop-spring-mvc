@@ -23,6 +23,10 @@ public class Oferta {
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 	
+	@ManyToOne
+	@JoinColumn(name = "usuario_comprador_id")
+	private Usuario comprador;
+	
 	private boolean vendido = false;
 	
 	private boolean destacada = false;
@@ -113,6 +117,16 @@ public class Oferta {
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+
+	public Usuario getComprador() {
+		return comprador;
+	}
+
+
+	public void setComprador(Usuario comprador) {
+		this.comprador = comprador;
 	}
 
 	

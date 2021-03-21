@@ -13,11 +13,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.uniovi.tests.pageobjects.PO_AddOfertaView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.util.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -35,6 +37,10 @@ public class MyWallapopTests {
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
+	
+
+	
+	//private InsertSampleDataService dataService = new InsertSampleDataService();
 
 	public static WebDriver getDriver(String PathFirefox, String Geckdriver) {
 		System.setProperty("webdriver.firefox.bin", PathFirefox);
@@ -46,6 +52,8 @@ public class MyWallapopTests {
 	// Antes de cada prueba se navega al URL home de la aplicación
 	@Before
 	public void setUp() {
+		//dataService.deleteAll();
+		//dataService.init();
 		driver.navigate().to(URL);
 	}
 
@@ -67,6 +75,14 @@ public class MyWallapopTests {
 		driver.quit();
 	}
 
+	
+	/*
+	 * NOTA IMPORTANTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * LA EJECUCIÓN DE TEST SOLO FUNCIONA 1 VEZ, LUEGO HAY QUE RESETEAR LA BASE DE DATOS
+	 * LANZANDO DE NUEVO EL PROYECTO. (ESTE APARTADO SE MEJORARÁ CUANDO TENGA MÁS TIEMPO)
+	 */
+	
+	
 	// [Prueba1] Registro de Usuario con datos válidos.
 	@Test
 	public void PR01() {
@@ -185,7 +201,7 @@ public class MyWallapopTests {
 		driver.navigate().to("http://localhost:8090/usuario/list");
 		int size = PO_View.getSizeOfPageable(driver);
 		//los que hay + el que se añade en la prueba 1 y sin el admin
-		assertTrue(size == 6);
+		assertTrue(size == 5);
 		
 	}
 
@@ -243,7 +259,12 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR16() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarAdmin(driver);
+		driver.navigate().to("http://localhost:8090/oferta/add");
+		PO_AddOfertaView.fillValid(driver);
+		driver.navigate().to("http://localhost:8090/oferta/listVender");
+		SeleniumUtils.textoPresentePagina(driver, "raro");
 	}
 
 	// [Prueba17] Ir al formulario de alta de oferta, rellenarla con datos inválidos
@@ -252,7 +273,12 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR17() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarAdmin(driver);
+		driver.navigate().to("http://localhost:8090/oferta/add");
+		PO_AddOfertaView.fillEmptyTitulo(driver);
+		driver.navigate().to("http://localhost:8090/oferta/listVender");
+		SeleniumUtils.textoPresentePagina(driver, "obligatorio");
 	}
 
 	// [Prueba18] Mostrar el listado de ofertas para dicho usuario y comprobar que
@@ -260,7 +286,11 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR18() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarAdmin(driver);
+		driver.navigate().to("http://localhost:8090/oferta/listVender");
+		int size = PO_View.getSizeOfPageable(driver);
+		assertTrue(size==1);
 	}
 
 	// [Prueba19] Ir a la lista de ofertas, borrar la primera oferta de la lista,
@@ -268,7 +298,15 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR19() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarAdmin(driver);
+		driver.navigate().to("http://localhost:8090/oferta/add");
+		PO_AddOfertaView.fillValid(driver);
+		driver.navigate().to("http://localhost:8090/oferta/listVender");
+		By enlace = By.xpath("//*[@id=\"tableMarks\"]/tbody/tr/td[5]/a");
+		driver.findElement(enlace).click();
+		int size = PO_View.getSizeOfPageable(driver);
+		assertTrue(size==1);
 	}
 
 	// [Prueba20] Ir a la lista de ofertas, borrar la última oferta de la lista,
@@ -276,7 +314,15 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR20() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarAdmin(driver);
+		driver.navigate().to("http://localhost:8090/oferta/add");
+		PO_AddOfertaView.fillValid(driver);
+		driver.navigate().to("http://localhost:8090/oferta/listVender");
+		By enlace = By.xpath("//*[@id=\"tableMarks\"]/tbody/tr/td[5]/a");
+		driver.findElement(enlace).click();
+		int size = PO_View.getSizeOfPageable(driver);
+		assertTrue(size==1);
 	}
 
 	// [Prueba21] Hacer una búsqueda con el campo vacío y comprobar que se muestra
@@ -285,7 +331,12 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR21() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarUsuario(driver);
+		PO_View.checkElement(driver, "text", "Usuario Autenticado");
+		driver.navigate().to("http://localhost:8090/oferta/listComprar");
+		int size = PO_View.getSizeOfPageable(driver);
+		assertTrue(size==1);
 	}
 
 	// [Prueba22] Hacer una búsqueda escribiendo en el campo un texto que no exista
@@ -294,7 +345,15 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR22() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarUsuario(driver);
+		driver.navigate().to("http://localhost:8090/oferta/listComprar");
+		
+		By enlace = By.xpath("/html/body/div/form/div/input");
+		driver.findElement(enlace).sendKeys("qwerty");
+		int size = PO_View.getSizeOfPageable(driver);
+		assertTrue(size==0);
+		
 	}
 
 	// [Prueba23] Sobre una búsqueda determinada (a elección del desarrollador),
@@ -342,6 +401,13 @@ public class MyWallapopTests {
 	@Test
 	public void PR27() {
 		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		
+		By enlace = By.xpath("//*[@id=\"btnLanguage\"]/span[1]");
+		driver.findElement(enlace).click();
+		enlace = By.xpath("//*[@id=\"btnEnglish\"]/span");
+		driver.findElement(enlace).click();
+		PO_HomeView.checkWelcome(driver, PO_Properties.getENGLISH());
+		
 	}
 
 	// [Prueba28] Intentar acceder sin estar autenticado a la opción de listado de
@@ -349,7 +415,10 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR28() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		driver.navigate().to("http://localhost:8090/usuario/list");
+		SeleniumUtils.textoNoPresentePagina(driver, "Usuario");
+		String urlActual = driver.getCurrentUrl();
+		assertTrue(urlActual.equals("http://localhost:8090/login"));
 	}
 
 	// [Prueba29] Intentar acceder sin estar autenticado a la opción de listado de
@@ -358,7 +427,10 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR29() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		driver.navigate().to("http://localhost:8090/oferta/listVender");
+		SeleniumUtils.textoNoPresentePagina(driver, "Usuario");
+		String urlActual = driver.getCurrentUrl();
+		assertTrue(urlActual.equals("http://localhost:8090/login"));
 	}
 
 	// [Prueba30] Estando autenticado como usuario estándar intentar acceder a la
@@ -367,7 +439,10 @@ public class MyWallapopTests {
 
 	@Test
 	public void PR30() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.entrarUsuario(driver);
+		driver.navigate().to("http://localhost:8090/usuario/list");
+		SeleniumUtils.textoNoPresentePagina(driver, "Usuario");
 	}
 
 	// [Prueba31] Sobre una búsqueda determinada de ofertas (a elección de

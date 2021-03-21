@@ -18,8 +18,42 @@
 			<td><a th:href="${'/oferta/details/' + of.id}"
 				th:text="#{Detalles}">detalles</a></td>
 			<td>
-				<div>
-					<button type="button" class="btn btn-info">Comprar</button>
+				<div th:if="${!of.vendido}">
+					<button type="button" th:id="${'comprarButton' + of.id}"
+						class="btn btn-info">Comprar</button>
+					<script th:inline="javascript">
+						/*<![CDATA[*/
+						$("#comprarButton[[${of.id}]]")
+								.click(
+										function() {
+											$
+													.get(
+															"/oferta/[[${of.id}]]/vendido",
+															function(data) {
+																$("#tableMarks")
+																		.load(
+																				'/oferta/listComprar/update');
+															});
+											var money = '${session.activeUser.money}';
+											var price = '${of.precio}'
+											if (money < precio) {
+												const div = document
+														.createElement("div");
+												div.textContent = "No tienes suficiente dinero.";
+												const app = document
+														.createElement("div");
+												app.id = "app";
+												app.appendChild(div);
+											}
+										}
+
+								);
+						/*]]>*/
+					</script>
+				</div>
+				<div th:unless="${!of.vendido}">
+					<button type="button" th:id="${'comprarButton' + of.id}"
+						class="btn btn-default">Vendida</button>
 				</div>
 			</td>
 		</tr>

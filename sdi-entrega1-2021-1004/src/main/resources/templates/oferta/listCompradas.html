@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+
+
+
+	<div class="container">
+		<h2 th:text="#{Oferta.list.h2}">Ofertas</h2>
+
+		<p th:text="#{Oferta.list.descripcion}">Las ofertas que actualmente
+			figuran en el sistema son las siguientes:</p>
+
+		<div class="table-responsive">
+			<table th:replace="fragments/tableOfertasCompradas" th:fragment="tableMarks">
+			</table>
+		</div>
+		<footer th:replace="fragments/pagination" />
+
+	</div>
+
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

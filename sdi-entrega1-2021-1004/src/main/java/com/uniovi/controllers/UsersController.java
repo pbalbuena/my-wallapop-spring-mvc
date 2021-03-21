@@ -2,10 +2,14 @@ package com.uniovi.controllers;
 
 import java.util.LinkedList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +29,10 @@ import com.uniovi.validators.UserAddFormValidator;
 
 @Controller
 public class UsersController {
+	
+	@Autowired
+	private HttpSession httpSession;
+	
 	@Autowired
 	private UsuarioService usersService;
 
@@ -133,10 +141,12 @@ public class UsersController {
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
-		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		//String email = auth.getName();
-		//Usuario activeUser = usersService.getUserByEmail(email);
-		//model.addAttribute("markList", activeUser.getMarks());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		Usuario activeUser = usersService.getUserByEmail(email);
+	    //String money = String.valueOf(activeUser.getMoney());
+		httpSession.setAttribute("activeUser", activeUser);
+		
 		return "home";
 	}
 

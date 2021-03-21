@@ -15,7 +15,7 @@
 					th:text="#{Oferta.add.campo1}">titulo:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="titulo"
-						th:placeholder="#{Ejemplo.descripcion}" required="true" /><span
+						th:placeholder="#{Ejemplo.titulo}" required="true" /><span
 						class="text-danger" th:if="${#fields.hasErrors('titulo')}"
 						th:errors="*{titulo}">
 				</div>
@@ -24,8 +24,8 @@
 				<label class="control-label col-sm-2" for="detalle"
 					th:text="#{Oferta.add.campo2}">Detalle:</label>
 				<div class="col-sm-10">
-					<input type="number" class="form-control" name="detalle"
-						th:placeholder="#{Ejemplo.nota}" required="true" /><span
+					<input type="text" class="form-control" name="detalle"
+						th:placeholder="#{Ejemplo.descripcion}" required="true" /><span
 						class="text-danger" th:if="${#fields.hasErrors('detalle')}"
 						th:errors="*{detalle}">
 				</div>

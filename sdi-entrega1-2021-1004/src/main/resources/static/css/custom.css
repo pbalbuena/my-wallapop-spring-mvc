@@ -16,4 +16,12 @@ footer {
  text-align:center;
  line-height:60px
 }
+
+#myNavbar > ul.nav.navbar-nav.navbar-right > li:nth-child(2) > p {
+	text-decoration: white;	
+}
+
+#myNavbar > ul.nav.navbar-nav.navbar-right > li:nth-child(3) > p {
+	text-decoration: white;	
+}
 /* Sticky footer styles-------------------------------------------------- */
