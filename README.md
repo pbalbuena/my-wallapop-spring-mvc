@@ -1,4 +1,4 @@
-# my-wallapop-springMVC
+# my-wallapop-spring-mvc
 Aplicación que simula el funcionamiento de wallapop.
 
 Realizada con Spring Boot siguiendo el patrón de diseño MVC (Modelo-Vista-Controlador)
