@@ -35,4 +35,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn f /home/runner/work/my-wallapop-spring-mvc/sdi-entrega1-2021-1004/pom.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mi-proyecto-1
+        run: mvn -f /home/runner/work/my-wallapop-spring-mvc/sdi-entrega1-2021-1004/pom.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mi-proyecto-1
