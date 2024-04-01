@@ -21,6 +21,8 @@ jobs:
           java-version: 17
       - name: Change to project directory
         run: cd sdi-entrega1-2021-1004
+      - name: List project directory
+        run: ls
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
