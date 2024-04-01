@@ -19,6 +19,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - name: Change to project directory
+        run: cd sdi-entrega1-2021-1004
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
@@ -35,4 +37,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mi-proyecto-1 -Dsonar.projectName='my-wallapop-spring-mvc/sdi-entrega1-2021-1004'
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mi-proyecto-1 -Dsonar.projectName='my-wallapop-spring-mvc'
